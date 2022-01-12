@@ -63,32 +63,22 @@ namespace Trivia
             if (_currentPlayer.InPenaltyBox)
             {
                 _currentPlayer.ValidateRollToGetOutOfPenaltyBox(roll);
-                if (_currentPlayer.IsGettingOutPenaltyBox)
-                {
-                    Console.WriteLine(_currentPlayer.Name + " is getting out of the penalty box");
-                    _currentPlayer.MovePlayer(roll);
-
-                    Console.WriteLine(_currentPlayer.Name
-                                      + "'s new location is "
-                                      + _currentPlayer.Place);
-                    Console.WriteLine("The category is " + CurrentCategory());
-                    AskQuestion();
-                }
-                else
+                if (!_currentPlayer.IsGettingOutPenaltyBox)
                 {
                     Console.WriteLine(_currentPlayer.Name + " is not getting out of the penalty box");
+                    return;
                 }
-            }
-            else
-            {
-                _currentPlayer.MovePlayer(roll);
 
-                Console.WriteLine(_currentPlayer.Name
-                        + "'s new location is "
-                        + _currentPlayer.Place);
-                Console.WriteLine("The category is " + CurrentCategory());
-                AskQuestion();
+                Console.WriteLine(_currentPlayer.Name + " is getting out of the penalty box");
             }
+
+            _currentPlayer.MovePlayer(roll);
+
+            Console.WriteLine(_currentPlayer.Name
+                              + "'s new location is "
+                              + _currentPlayer.Place);
+            Console.WriteLine("The category is " + CurrentCategory());
+            AskQuestion();
         }
 
         private void AskQuestion()
