@@ -37,11 +37,6 @@ namespace Trivia
             return "Rock Question " + index;
         }
 
-        public bool IsPlayable()
-        {
-            return (HowManyPlayers() >= 2);
-        }
-
         public bool Add(string playerName)
         {
             _players.Add(playerName);
@@ -50,7 +45,7 @@ namespace Trivia
             _inPenaltyBox[HowManyPlayers()] = false;
 
             Console.WriteLine(playerName + " was added");
-            Console.WriteLine("They are player number " + _players.Count);
+            Console.WriteLine("They are player number " +HowManyPlayers());
             return true;
         }
 
@@ -71,12 +66,11 @@ namespace Trivia
                     _isGettingOutOfPenaltyBox = true;
 
                     Console.WriteLine(_players[_currentPlayer] + " is getting out of the penalty box");
-                    _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                    if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                    MoveCurrentPlayer(roll);
 
                     Console.WriteLine(_players[_currentPlayer]
-                            + "'s new location is "
-                            + _places[_currentPlayer]);
+                                      + "'s new location is "
+                                      + _places[_currentPlayer]);
                     Console.WriteLine("The category is " + CurrentCategory());
                     AskQuestion();
                 }
@@ -88,8 +82,7 @@ namespace Trivia
             }
             else
             {
-                _places[_currentPlayer] = _places[_currentPlayer] + roll;
-                if (_places[_currentPlayer] > 11) _places[_currentPlayer] = _places[_currentPlayer] - 12;
+                MoveCurrentPlayer(roll);
 
                 Console.WriteLine(_players[_currentPlayer]
                         + "'s new location is "
@@ -97,6 +90,11 @@ namespace Trivia
                 Console.WriteLine("The category is " + CurrentCategory());
                 AskQuestion();
             }
+        }
+
+        private void MoveCurrentPlayer(int roll)
+        {
+            _places[_currentPlayer] = (_places[_currentPlayer] + roll) % 12;
         }
 
         private void AskQuestion()
