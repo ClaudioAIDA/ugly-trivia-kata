@@ -10,34 +10,20 @@ namespace Trivia
 
         private readonly List<string> board;
 
-        private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
-        private readonly LinkedList<string> _rockQuestions = new LinkedList<string>();
+        private readonly Quiz quiz;
 
         private Player _currentPlayer;
         private int currentPlayerIndex = 0;
 
         public Game()
         {
-            for (var i = 0; i < 50; i++)
-            {
-                _popQuestions.AddLast("Pop Question " + i);
-                _scienceQuestions.AddLast(("Science Question " + i));
-                _sportsQuestions.AddLast(("Sports Question " + i));
-                _rockQuestions.AddLast(CreateRockQuestion(i));
-            }
+            quiz = new Quiz();
 
             board = new List<string>
             {
                 "Pop", "Science", "Sports", "Rock", "Pop", "Science", "Sports", "Rock", "Pop", "Science", "Sports",
                 "Rock",
             };
-        }
-
-        public string CreateRockQuestion(int index)
-        {
-            return "Rock Question " + index;
         }
 
         public bool Add(string playerName)
@@ -83,26 +69,9 @@ namespace Trivia
 
         private void AskQuestion()
         {
-            if (CurrentCategory() == "Pop")
-            {
-                Console.WriteLine(_popQuestions.First());
-                _popQuestions.RemoveFirst();
-            }
-            if (CurrentCategory() == "Science")
-            {
-                Console.WriteLine(_scienceQuestions.First());
-                _scienceQuestions.RemoveFirst();
-            }
-            if (CurrentCategory() == "Sports")
-            {
-                Console.WriteLine(_sportsQuestions.First());
-                _sportsQuestions.RemoveFirst();
-            }
-            if (CurrentCategory() == "Rock")
-            {
-                Console.WriteLine(_rockQuestions.First());
-                _rockQuestions.RemoveFirst();
-            }
+            var category = CurrentCategory();
+            var question = quiz.NextQuestion(category);
+            Console.WriteLine(question);
         }
 
         private string CurrentCategory()
@@ -136,7 +105,6 @@ namespace Trivia
             NextPlayer();
 
             return winner;
-            
         }
 
         public bool WrongAnswer()
@@ -155,5 +123,4 @@ namespace Trivia
             _currentPlayer = _players[currentPlayerIndex];
         }
     }
-
 }
