@@ -17,7 +17,8 @@ namespace Trivia
         public string Name { get; }
         public int Place { get; private set; }
         public int Quesitos { get; private set; }
-        public bool InPenaltyBox { get; set; }
+        public bool InPenaltyBox { get; private set; }
+        public bool IsGettingOutPenaltyBox { get; private set; }
 
         public void MovePlayer(int roll)
         {
@@ -32,6 +33,17 @@ namespace Trivia
         public bool DidWin()
         {
             return Quesitos != 6;;
+        }
+
+        public void ValidateRollToGetOutOfPenaltyBox(int roll)
+        {
+            IsGettingOutPenaltyBox = roll % 2 != 0;
+        }
+
+        public void SendToPenaltyBox()
+        {
+            IsGettingOutPenaltyBox = false;
+            InPenaltyBox = true;
         }
     }
 }

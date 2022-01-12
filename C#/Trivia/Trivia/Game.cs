@@ -17,7 +17,6 @@ namespace Trivia
 
         private Player _currentPlayer;
         private int currentPlayerIndex = 0;
-        private bool _isGettingOutOfPenaltyBox;
 
         public Game()
         {
@@ -63,10 +62,9 @@ namespace Trivia
 
             if (_currentPlayer.InPenaltyBox)
             {
-                if (roll % 2 != 0)
+                _currentPlayer.ValidateRollToGetOutOfPenaltyBox(roll);
+                if (_currentPlayer.IsGettingOutPenaltyBox)
                 {
-                    _isGettingOutOfPenaltyBox = true;
-
                     Console.WriteLine(_currentPlayer.Name + " is getting out of the penalty box");
                     _currentPlayer.MovePlayer(roll);
 
@@ -79,7 +77,6 @@ namespace Trivia
                 else
                 {
                     Console.WriteLine(_currentPlayer.Name + " is not getting out of the penalty box");
-                    _isGettingOutOfPenaltyBox = false;
                 }
             }
             else
@@ -127,7 +124,7 @@ namespace Trivia
         {
             if (_currentPlayer.InPenaltyBox)
             {
-                if (!_isGettingOutOfPenaltyBox)
+                if (!_currentPlayer.IsGettingOutPenaltyBox)
                 {
                     NextPlayer();
                     return true;
@@ -156,7 +153,7 @@ namespace Trivia
         {
             Console.WriteLine("Question was incorrectly answered");
             Console.WriteLine(_currentPlayer.Name + " was sent to the penalty box");
-            _currentPlayer.InPenaltyBox = true;
+            _currentPlayer.SendToPenaltyBox();
 
             NextPlayer();
             return true;
