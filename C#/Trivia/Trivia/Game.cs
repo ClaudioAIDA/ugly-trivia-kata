@@ -8,11 +8,6 @@ namespace Trivia
     {
         private readonly List<Player> _players = new List<Player>();
 
-        private readonly int[] _places = new int[6];
-        private readonly int[] _purses = new int[6];
-
-        private readonly bool[] _inPenaltyBox = new bool[6];
-
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
@@ -133,40 +128,29 @@ namespace Trivia
         {
             if (_currentPlayer.InPenaltyBox)
             {
-                if (_isGettingOutOfPenaltyBox)
-                {
-                    Console.WriteLine("Answer was correct!!!!");
-                    _currentPlayer.WinQuesito();
-                    Console.WriteLine(_currentPlayer.Name
-                            + " now has "
-                            + _currentPlayer.Quesitos
-                            + " Gold Coins.");
-
-                    var winner = _currentPlayer.DidWin();
-                    NextPlayer();
-
-                    return winner;
-                }
-                else
+                if (!_isGettingOutOfPenaltyBox)
                 {
                     NextPlayer();
                     return true;
                 }
+                Console.WriteLine("Answer was correct!!!!");
             }
             else
             {
                 Console.WriteLine("Answer was corrent!!!!");
-                _currentPlayer.WinQuesito();
-                Console.WriteLine(_currentPlayer.Name
-                        + " now has "
-                        + _currentPlayer.Quesitos
-                        + " Gold Coins.");
-
-                var winner = _currentPlayer.DidWin();
-                NextPlayer();
-
-                return winner;
             }
+
+            _currentPlayer.WinQuesito();
+            Console.WriteLine(_currentPlayer.Name
+                              + " now has "
+                              + _currentPlayer.Quesitos
+                              + " Gold Coins.");
+
+            var winner = _currentPlayer.DidWin();
+            NextPlayer();
+
+            return winner;
+            
         }
 
         public bool WrongAnswer()
