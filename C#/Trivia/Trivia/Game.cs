@@ -8,6 +8,8 @@ namespace Trivia
     {
         private readonly List<Player> _players = new List<Player>();
 
+        private readonly List<string> board;
+
         private readonly LinkedList<string> _popQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _scienceQuestions = new LinkedList<string>();
         private readonly LinkedList<string> _sportsQuestions = new LinkedList<string>();
@@ -26,6 +28,12 @@ namespace Trivia
                 _sportsQuestions.AddLast(("Sports Question " + i));
                 _rockQuestions.AddLast(CreateRockQuestion(i));
             }
+
+            board = new List<string>
+            {
+                "Pop", "Science", "Sports", "Rock", "Pop", "Science", "Sports", "Rock", "Pop", "Science", "Sports",
+                "Rock",
+            };
         }
 
         public string CreateRockQuestion(int index)
@@ -112,16 +120,7 @@ namespace Trivia
 
         private string CurrentCategory()
         {
-            if (_currentPlayer.Place == 0) return "Pop";
-            if (_currentPlayer.Place == 4) return "Pop";
-            if (_currentPlayer.Place == 8) return "Pop";
-            if (_currentPlayer.Place == 1) return "Science";
-            if (_currentPlayer.Place == 5) return "Science";
-            if (_currentPlayer.Place == 9) return "Science";
-            if (_currentPlayer.Place == 2) return "Sports";
-            if (_currentPlayer.Place == 6) return "Sports";
-            if (_currentPlayer.Place == 10) return "Sports";
-            return "Rock";
+            return board[_currentPlayer.Place];
         }
 
         public bool WasCorrectlyAnswered()
